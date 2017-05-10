@@ -27,6 +27,6 @@
 
 # 目前测试仅该方法有效
 ffmpeg -i ./0_start.mov  -qscale 0 0.mpg    
-ffmpeg -i ./1_middle.mov -qscale 0 1.mpg
+ffmpeg -i ./1_middle.mp4 -vf scale=640:360 -aspect 16:9 -r 30 -b 1536K  -qscale 0 1.mpg
 ffmpeg -i ./2_end.mov    -qscale 0 2.mpg
 cat 0.mpg 1.mpg 2.mpg | ffmpeg -f mpeg -i - -qscale 0 -vcodec mpeg4 out_new.mp4
