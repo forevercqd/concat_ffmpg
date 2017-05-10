@@ -26,7 +26,11 @@
 
 
 # 目前测试仅该方法有效
-ffmpeg -i ./0_start.mov  -qscale 0 0.mpg    
-ffmpeg -i ./1_middle.mp4 -vf scale=640:360 -aspect 16:9 -r 30 -b 1536K  -qscale 0 1.mpg
-ffmpeg -i ./2_end.mov    -qscale 0 2.mpg
-cat 0.mpg 1.mpg 2.mpg | ffmpeg -f mpeg -i - -qscale 0 -vcodec mpeg4 out_new.mp4
+ffmpeg -i ./0_start.mov -r 30 -qscale 0 0.mpg    
+#ffmpeg -i ./1_middle.mp4 -vf scale=640:360 -aspect 16:9 -r 30 -b 1536K  -qscale 0 1.mpg
+
+ffmpeg -i 1024x768_43_test_shape.mp4  -vf "scale=-1:360,pad=640:ih:(ow-iw)/2"  -r 30 -b 1536K 1.mpg 
+ffmpeg -i ./2_end.mov -r 30   -qscale 0 2.mpg
+cat 0.mpg 1.mpg 2.mpg | ffmpeg -f mpeg -i - -vcodec mpeg4 out_new.mp4
+
+#ffmpeg -i 1024x768_43_test_shape.mp4  -vf "scale=-1:360,pad=640:ih:(ow-iw)/2" -r 30 -b 1536K  1024x768_43_640x360_169.mp4
