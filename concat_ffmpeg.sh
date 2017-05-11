@@ -27,7 +27,8 @@ echo cqd ${SECT_16_9}
 ffmpeg -i   ./0_start.mov -r 30 -qscale 0 0.mpg   #片头 
 ffmpeg -i   ./2_end.mov   -r 30 -qscale 0 2.mpg   #片尾 
 ffmpeg -i   ./XingQiuJueQi_16_BFrames.mp4 -vf "scale=-1:360,pad=640:ih:(ow-iw)/2"  -r 30 -qscale 0 1.mpg 
-cat 0.mpg 1.mpg 2.mpg | ffmpeg -f mpeg -i - -vcodec h264 -r 30 -b 1536K -acodec aac -ab 60K  $TARGET
+cat 0.mpg 1.mpg 2.mpg | ffmpeg -f mpeg -i -  -i mask.png -filter_complex 'overlay=20:main_h-overlay_h-20' \
+    -vcodec h264 -r 30 -b 1536K -acodec aac -ab 60K  $TARGET
 
 # 测试有音轨时视频合并,同时存在 4:3 转 16:9 转换，测试ok 
 #ffmpeg -i 1024x768_43_test_shape.mp4  -vf "scale=-1:360,pad=640:ih:(ow-iw)/2"  -r 30 -qscale 0 0.mpg 
