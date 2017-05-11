@@ -6,7 +6,9 @@ ASECT_16_9=-vf "scale=-1:360,pad=640:ih:(ow-iw)/2"
 rm -rf $TARGET 
 rm 0.mpg 1.mpg 2.mpg
 
+SRCAME=0_start
 
+echo cqd ${SRCAME}.mov 
 echo cqd ${SECT_16_9} 
 #ffmpeg -i 288X512_out.mp4 -i Eng_Output_1.mp4 -i 288X512_out.mp4 -filter_complex \
 #      "[0:v:0] [0:a:0]  [1:v:0] [1:a:0] [2:v:0] [2:a:0] concat=n=3:v=1:a=1 [v] [a]" \
@@ -27,9 +29,9 @@ length=`ffmpeg -i  ./0_start_1.mp4 2>&1 | grep 'Duration' | cut -d ' ' -f 4 | se
 echo cqd length=$length
 
 # 目前测试仅该方法有效
-ffmpeg -i   ./0_start_1.mp4 -r 30 -qscale 0 0.mpg   #片头 
+ffmpeg -i   ./0_start_new.mp4 -r 30 -qscale 0 0.mpg   #片头 
 ffmpeg -i   ./2_end.mov   -r 30 -qscale 0 2.mpg   #片尾 
-ffmpeg -i   ./1024x768_43_test_shape.mp4 -vf "scale=-1:360,pad=640:ih:(ow-iw)/2"  -r 30 -qscale 0 1.mpg 
+ffmpeg -i   ./XingQiuJueQi_16_BFrames.mp4 -vf "scale=-1:360,pad=640:ih:(ow-iw)/2"  -r 30 -qscale 0 1.mpg 
 cat 0.mpg 1.mpg 2.mpg | ffmpeg  -i -  -vf  "movie=mask.png,scale= -1: -1[watermask]; [in] [watermask] overlay=x='if(between(t, 2, 14), 50, -1000)':y=50 [out]"\
     -vcodec h264 -r 30 -b 1536K -acodec aac -ab 60K -y $TARGET 
 
